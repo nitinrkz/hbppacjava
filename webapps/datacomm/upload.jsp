@@ -10,7 +10,7 @@
 
    ServletContext context = pageContext.getServletContext();
    String filePath = context.getInitParameter("file-upload");
-	System.out.println(filePath);
+	System.out.println(context);
    }
 catch(Exception ex) {
          System.out.println(ex);
