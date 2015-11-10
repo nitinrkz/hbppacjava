@@ -7,7 +7,7 @@
 
 <%
 
-      DiskFileItemFactory factory = new DiskFileItemFactory();
+      org.apache.commons.fileupload.disk.DiskFileItemFactory factory = new org.apache.commons.fileupload.disk.DiskFileItemFactory();
    
 
 %>
