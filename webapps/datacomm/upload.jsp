@@ -6,13 +6,7 @@
 <%@ page import="org.apache.commons.io.output.*" %>
 
 <%
-   try{
-
-      DiskFileItemFactory factory = new DiskFileItemFactory();
-   }
-catch(Exception ex) {
-         out.write(ex);
-      }
+  out.write("JJ");
 
 
 %>
