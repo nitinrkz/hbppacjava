@@ -6,7 +6,8 @@
 <%@ page import="org.apache.commons.io.output.*" %>
 
 <%
-  out.write("JJ");
 
+      DiskFileItemFactory factory = new DiskFileItemFactory();
+   
 
 %>
