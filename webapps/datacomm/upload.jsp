@@ -6,6 +6,7 @@
 <%@ page import="org.apache.commons.io.output.*" %>
 
 <%
+try{
    File file ;
    int maxFileSize = 50000 * 1024;
    int maxMemSize = 5000 * 1024;
@@ -26,7 +27,7 @@
       ServletFileUpload upload = new ServletFileUpload(factory);
       // maximum file size to be uploaded.
       upload.setSizeMax( maxFileSize );
-      try{ 
+       
          // Parse the request to get file items.
          List fileItems = upload.parseRequest(request);
 
