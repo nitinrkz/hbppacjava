@@ -6,4 +6,16 @@
          \datacomm\uploads\
      </param-value> 
 </context-param>
+
+<servlet>
+<servlet-name>UploadServelet</servlet-name>
+<jsp-file>/upload.jsp</jsp-file>
+
+</servlet>
+ 
+<servlet-mapping>
+<servlet-name>UploadServelet</servlet-name>
+<url-pattern>/upload</url-pattern>
+</servlet-mapping>
+
 </web-app>
