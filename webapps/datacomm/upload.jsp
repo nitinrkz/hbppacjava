@@ -6,15 +6,7 @@
 <%@ page import="org.apache.commons.io.output.*" %>
 
 <%
-   try{
-
-   ServletContext context = pageContext.getServletContext();
-   String filePath = context.getInitParameter("file-upload");
-	System.out.println(context);
-   }
-catch(Exception ex) {
-         System.out.println(ex);
-      }
+  out.write("dsad");
 
 
 %>
