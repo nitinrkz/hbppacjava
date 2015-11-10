@@ -5,3 +5,6 @@
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
 <%@ page import="org.apache.commons.io.output.*" %>
 
+<%String filePath = context.getInitParameter("file-upload");
+
+%>
