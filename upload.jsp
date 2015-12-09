@@ -8,7 +8,13 @@
 
 <%
 		String level="-1";
-		out.println(request.getParameter("submit"));
+		
+		Enumeration<String> e=request.getParameterNames();
+		while(e.hasMoreElements()){
+			String s=e.nextElement();
+			out.println(s);
+		}
+	
 		if(request.getParameter("submit")!=null){
 			
 		if(request.getParameter("level")!=null){
