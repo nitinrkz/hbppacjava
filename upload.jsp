@@ -8,6 +8,7 @@
 
 <%
 		String level="-1";
+		out.println(request.getParameter("submit"));
 		if(request.getParameter("submit")!=null){
 			
 		if(request.getParameter("level")!=null){
