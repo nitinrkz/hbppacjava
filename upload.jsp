@@ -4,9 +4,11 @@
 <%@ page import="org.apache.commons.fileupload.disk.*" %>
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
 <%@ page import="org.apache.commons.io.output.*" %>
+<%@ page import="org.apache.commons.io.*" %>
 <%! private final String UPLOAD_DIRECTORY = "/uploads"; %>
 
 <%
+		
 		String level="-1";
 		
 		Enumeration<String> e=request.getParameterNames();
@@ -33,6 +35,7 @@
 
                     if(!item.isFormField()){
 
+                    
                         String name = new File(item.getName()).getName();
 
                         item.write( new File(UPLOAD_DIRECTORY + File.separator + name));
