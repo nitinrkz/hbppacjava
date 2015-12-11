@@ -33,11 +33,7 @@
          // Process the uploaded file items
          Iterator i = fileItems.iterator();
 
-         out.println("<html>");
-         out.println("<head>");
-         out.println("<title>JSP File upload</title>");  
-         out.println("</head>");
-         out.println("<body>");
+         
          while ( i.hasNext () ) 
          {
             FileItem fi = (FileItem)i.next();
@@ -51,7 +47,6 @@
             // Write the file
             
             file = new File( filePath +fileName) ;
-            
             fi.write( file ) ;
             out.println("Successfully uploaded");
             }
