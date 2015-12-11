@@ -24,24 +24,24 @@
 
       // Create a new file upload handler
       ServletFileUpload upload = new ServletFileUpload(factory);
-      out.write("servlet file upload");
+      out.write("\nservlet file upload");
       // maximum file size to be uploaded.
       upload.setSizeMax( maxFileSize );
       try{ 
          // Parse the request to get file items.
          List fileItems = upload.parseRequest(request);
-         out.write("parse request");
+         out.write("\nparse request");
          // Process the uploaded file items
          Iterator i = fileItems.iterator();
 
          
          while ( i.hasNext () ) 
          {
-         	out.write("iterator next");
+         	out.write("\niterator next");
             FileItem fi = (FileItem)i.next();
             if ( !fi.isFormField () )	
             {
-            out.write("is not form field");
+            out.write("\nis not form field");
             // Get the uploaded file parameters
             String fieldName = fi.getFieldName();
             String fileName = fi.getName();
@@ -51,14 +51,14 @@
             
             file = new File( filePath +fileName) ;
             fi.write( file ) ;
-            out.write("Successfully uploaded");
+            out.write("\nSuccessfully uploaded");
             }
          }
       }catch(Exception ex) {
-         ex.printStackTrace();
+         out.write(ex.getMessage());
       }
    }else{
       
-      out.write("No file uploaded"); 
+      out.write("\nNo file uploaded"); 
    }
 %>
