@@ -51,7 +51,7 @@
             // Write the file
             
             file = new File( filePath +fileName) ;
-            }
+            
             fi.write( file ) ;
             out.println("Successfully uploaded");
             }
