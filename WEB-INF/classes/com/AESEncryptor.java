@@ -1,5 +1,5 @@
 //package com.javaingrab.security.encrypt;
- 
+ package com;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -15,7 +15,7 @@ import java.util.*;
  
 public class AESEncryptor {
  
- public void encrypt(String fname) throws Exception{
+ public static void encrypt(String fname) throws Exception{
   KeyGenerator keyGen = KeyGenerator.getInstance("AES");
   keyGen.init(128);  //using AES-256
   SecretKey key = keyGen.generateKey();  //generating key
@@ -42,7 +42,7 @@ public class AESEncryptor {
    
  }
   
- public void decrypt(String fname) throws Exception{
+ public static void decrypt(String fname) throws Exception{
   SecretKey key =null;
      
   //creating file input stream to read from file
