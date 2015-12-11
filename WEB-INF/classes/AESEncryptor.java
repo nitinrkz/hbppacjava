@@ -42,7 +42,7 @@ public class AESEncryptor {
    
  }
   
- public void decrypt(String fname){
+ public void decrypt(String fname) throws Exception{
   SecretKey key =null;
      
   //creating file input stream to read from file
