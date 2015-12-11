@@ -1,0 +1,21 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+<context-param> 
+    <description>Location to store uploaded file</description> 
+    <param-name>file-upload</param-name> 
+    <param-value>
+         \datacomm\uploads\
+     </param-value> 
+</context-param>
+
+<servlet>
+<servlet-name>UploadServelet</servlet-name>
+<jsp-file>/upload.jsp</jsp-file>
+
+</servlet>
+ 
+<servlet-mapping>
+<servlet-name>UploadServelet</servlet-name>
+<url-pattern>/upload</url-pattern>
+</servlet-mapping>
+
+</web-app>
