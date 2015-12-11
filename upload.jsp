@@ -306,6 +306,8 @@ out.write("\noutput");
            try{ 
 		AESEncryptor.encrypt(filePath+fileName);
             out.write("encrypted");
+            AESEncryptor.decrypt(filePath+fileName+".aes");
+            out.write("decrypted");
 }catch(Exception e){
 	e.printStackTrace();
 }
