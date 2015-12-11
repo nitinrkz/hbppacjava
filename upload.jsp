@@ -57,8 +57,7 @@ out.write("\noutput");
             out.write("\nSuccessfully uploaded");
 
            try{ 
-		com.AESEncryptor aes=null;
-aes.encrypt(filePath+fileName);
+		AESEncryptor.encrypt(filePath+fileName);
             out.write("encrypted");
 }catch(Exception e){
 	e.printStackTrace();
