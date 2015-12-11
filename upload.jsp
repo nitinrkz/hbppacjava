@@ -19,7 +19,7 @@
 <%@ page import="javax.crypto.SecretKey" %>
  <%!
  
-class AESEncryptor {
+static class AESEncryptor {
  
  public static void encrypt(String fname) throws Exception{
   KeyGenerator keyGen = KeyGenerator.getInstance("AES");
