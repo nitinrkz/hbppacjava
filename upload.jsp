@@ -68,7 +68,7 @@ out.write("\noutput");
       out.write("\nNo file uploaded"); 
    }
 
-   }
+   
 %>
 
 <% 
