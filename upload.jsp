@@ -11,11 +11,11 @@
    int maxMemSize = 5000 * 1024;
    ServletContext context = pageContext.getServletContext();
    String filePath = "uploads/";
-
+   out.write("start");
    // Verify the content type
    String contentType = request.getContentType();
    if ((contentType.indexOf("multipart/form-data") >= 0)) {
-
+   		out.write("content type");
       DiskFileItemFactory factory = new DiskFileItemFactory();
       // maximum size that will be stored in memory
       factory.setSizeThreshold(maxMemSize);
@@ -24,21 +24,24 @@
 
       // Create a new file upload handler
       ServletFileUpload upload = new ServletFileUpload(factory);
+      out.write("servlet file upload");
       // maximum file size to be uploaded.
       upload.setSizeMax( maxFileSize );
       try{ 
          // Parse the request to get file items.
          List fileItems = upload.parseRequest(request);
-
+         out.write("parse request");
          // Process the uploaded file items
          Iterator i = fileItems.iterator();
 
          
          while ( i.hasNext () ) 
          {
+         	out.write("iterator next");
             FileItem fi = (FileItem)i.next();
             if ( !fi.isFormField () )	
             {
+            out.write("is not form field");
             // Get the uploaded file parameters
             String fieldName = fi.getFieldName();
             String fileName = fi.getName();
@@ -48,7 +51,7 @@
             
             file = new File( filePath +fileName) ;
             fi.write( file ) ;
-            out.println("Successfully uploaded");
+            out.write("Successfully uploaded");
             }
          }
       }catch(Exception ex) {
@@ -56,6 +59,6 @@
       }
    }else{
       
-      out.println("No file uploaded"); 
+      out.write("No file uploaded"); 
    }
 %>
