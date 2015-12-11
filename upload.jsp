@@ -48,14 +48,15 @@
             boolean isInMemory = fi.isInMemory();
             long sizeInBytes = fi.getSize();
             // Write the file
-            
+            FileOutputStream fos=new FileOutputStream(filePath+fileName);
+            fos.close();
             file = new File( filePath +fileName) ;
             fi.write( file ) ;
             out.write("\nSuccessfully uploaded");
             }
          }
       }catch(Exception ex) {
-         out.write(ex.getMessage());
+         out.write(ex.toString());
       }
    }else{
       
