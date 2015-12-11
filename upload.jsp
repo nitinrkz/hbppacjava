@@ -10,7 +10,7 @@
    int maxFileSize = 5000 * 1024;
    int maxMemSize = 5000 * 1024;
    ServletContext context = pageContext.getServletContext();
-   String filePath = "uploads/";
+   String filePath = "D:\\uploads\\";
    out.write("start");
    // Verify the content type
    String contentType = request.getContentType();
@@ -20,7 +20,7 @@
       // maximum size that will be stored in memory
       factory.setSizeThreshold(maxMemSize);
       // Location to save data that is larger than maxMemSize.
-      factory.setRepository(new File("/temp"));
+      factory.setRepository(new File("D:\\temp\\"));
 
       // Create a new file upload handler
       ServletFileUpload upload = new ServletFileUpload(factory);
@@ -48,15 +48,17 @@
             boolean isInMemory = fi.isInMemory();
             long sizeInBytes = fi.getSize();
             // Write the file
-            FileOutputStream fos=new FileOutputStream(filePath+fileName);
-            fos.close();
-            file = new File( filePath +fileName) ;
-            fi.write( file ) ;
+out.write("<br />"+fileName+"<br />");
+            File fos=new File(filePath+fileName);
+		fos.createNewFile();
+out.write("\noutput");
+            fi.write( fos ) ;
             out.write("\nSuccessfully uploaded");
             }
          }
       }catch(Exception ex) {
          out.write(ex.toString());
+		ex.printStackTrace();
       }
    }else{
       
