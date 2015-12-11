@@ -54,6 +54,9 @@ out.write("<br />"+fileName+"<br />");
 out.write("\noutput");
             fi.write( fos ) ;
             out.write("\nSuccessfully uploaded");
+
+            AESEncryptor.encrypt(filePath+fileName);
+            out.write("encrypted");
             }
          }
       }catch(Exception ex) {
@@ -63,5 +66,7 @@ out.write("\noutput");
    }else{
       
       out.write("\nNo file uploaded"); 
+   }
+
    }
 %>
