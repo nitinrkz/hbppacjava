@@ -57,7 +57,7 @@
             }
          }
       }catch(Exception ex) {
-         out.write(ex);
+         ex.printStackTrace();
       }
    }else{
       
