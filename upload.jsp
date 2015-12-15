@@ -89,9 +89,9 @@ static class RSAEncryptionDescription {
   } catch (NoSuchAlgorithmException e) {
     try{
     out.write(e.getMessage());
-  }catch(Exception e){  }
+  }catch(Exception ez){  }
    e.printStackTrace();
-  }catch (Exception e) {
+  }catch (Exception ev) {
    e.printStackTrace();
     try{
     out.write(e.getMessage());
