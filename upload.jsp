@@ -194,7 +194,7 @@ encryptedData = cipher.doFinal(dataToEncrypt);
       //Get Public Key
       //RSAPublicKeySpec rsaPublicKeySpec = new RSAPublicKeySpec(modulus, exponent);
       KeyFactory fact = KeyFactory.getInstance("RSA");
-      PublicKey publicKey = fact.generatePublic(rsaPublicKeySpec);
+      PublicKey publicKey = fact.generatePublic(fileName);
             
       return publicKey;
       
