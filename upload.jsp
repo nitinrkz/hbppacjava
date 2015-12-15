@@ -340,7 +340,7 @@ static class AESEncryptor {
 
     /** Write the object to a Base64 string. */
     private static String toString( Object o ) throws IOException {
-        java.ioByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream( baos );
         oos.writeObject( o );
         oos.close();
