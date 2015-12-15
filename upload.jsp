@@ -39,6 +39,7 @@
 <%@ page import="java.util.Date" %>
 
 
+<%@ page import="org.apache.tomcat.util.codec.binary.Base64" %>
  <%!
 
 
