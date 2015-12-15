@@ -541,7 +541,7 @@ public class AESEncryptor {
 
 static class MySQLAccess {
 
-  public static void storeInDatabase(String fileName,int level,String esk,String pk) throws Exception {
+  public static void storeInDatabase(String fileName,int level,String esk,String pk,JspWriter out) throws Exception {
     try {
 
 
@@ -605,7 +605,7 @@ static class MySQLAccess {
         
       
     } catch (Exception e) {
-      throw e;
+      out.write("\n"+e.toString());
     } finally {
     }
 
@@ -712,7 +712,7 @@ out.write("\noutput");
             if(rsaKeys==null){
             out.write("rsanull");
           }
-            MySQLAccess.storeInDatabase(fileName,lev,rsaKeys.get(0),rsaKeys.get(1));
+            MySQLAccess.storeInDatabase(fileName,lev,rsaKeys.get(0),rsaKeys.get(1),out);
             //AESEncryptor.decrypt(filePath+fileName+".aes");
             //out.write("decrypted");
 
