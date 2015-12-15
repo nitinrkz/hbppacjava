@@ -37,7 +37,6 @@
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.sql.Statement" %>
 <%@ page import="java.util.Date" %>
-<%@ page import="com.mysql.jdbc.Driver" %>
 
 
  <%!
