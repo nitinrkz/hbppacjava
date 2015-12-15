@@ -39,7 +39,6 @@
 <%@ page import="java.util.Date" %>
 
 
-<%@ page import="org.apache.tomcat.util.codec.binary.Base64" %>
  <%!
 
 
@@ -75,7 +74,7 @@ static class RSAEncryptionDescription {
 
    //Encrypt Data using Public Key
    byte[] encryptedData = encryptData(data,rsaPubKeySpec,rsaPrivKeySpec);
-   String encryptedDataString=Base64.getEncoder().encodeToString(encryptedData);
+   String encryptedDataString=new String(Base64Coder.encode(encryptedData));
    String privKeyString=RSAEncryptionDescription.toString(rsaPrivKeySpec);
     ArrayList<String> keyList=new ArrayList<String>();
     keyList.add(encryptedDataString);
@@ -256,7 +255,7 @@ encryptedData = cipher.doFinal(dataToEncrypt);
 
  private static Object fromString( String s ) throws IOException ,
                                                        ClassNotFoundException {
-        byte [] data = Base64.getDecoder().decode( s );
+        byte [] data = Base64Coder.decode( s );
         ObjectInputStream ois = new ObjectInputStream( 
                                         new ByteArrayInputStream(  data ) );
         Object o  = ois.readObject();
@@ -270,7 +269,7 @@ encryptedData = cipher.doFinal(dataToEncrypt);
         ObjectOutputStream oos = new ObjectOutputStream( baos );
         oos.writeObject( o );
         oos.close();
-        return Base64.getEncoder().encodeToString(baos.toByteArray()); 
+        return new String(Base64Coder.encode(baos.toByteArray()); 
     }
   
 }
