@@ -17,11 +17,270 @@
 <%@ page import="javax.crypto.CipherOutputStream" %>
 <%@ page import="javax.crypto.KeyGenerator" %>
 <%@ page import="javax.crypto.SecretKey" %>
+<%@ page import="java.io.BufferedOutputStream" %>
+<%@ page import="java.io.File" %>
+<%@ page import="java.io.IOException" %>
+<%@ page import="java.math.BigInteger" %>
+<%@ page import="java.security.KeyFactory" %>
+<%@ page import="java.security.KeyPair" %>
+<%@ page import="java.security.KeyPairGenerator" %>
+<%@ page import="java.security.NoSuchAlgorithmException" %>
+<%@ page import="java.security.PrivateKey" %>
+<%@ page import="java.security.PublicKey" %>
+<%@ page import="java.security.spec.InvalidKeySpecException" %>
+<%@ page import="java.security.spec.RSAPrivateKeySpec" %>
+<%@ page import="java.security.spec.RSAPublicKeySpec" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.DriverManager" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.sql.Statement" %>
+<%@ page import="java.util.Date" %>
+
+
+ <%!
+
+
+static class RSAEncryptionDescription {
+ 
+ public static ArrayList<String> encrypt(String data) {
+
+  try {
+   //System.out.println("-------GENRATE PUBLIC and PRIVATE KEY-------------");
+   KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+   keyPairGenerator.initialize(2048); //1024 used for normal securities
+   KeyPair keyPair = keyPairGenerator.generateKeyPair();
+   PublicKey publicKey = keyPair.getPublic();
+   PrivateKey privateKey = keyPair.getPrivate();
+   //System.out.println("Public Key - " + publicKey);
+   //System.out.println("Private Key - " + privateKey);
+
+   //Pullingout parameters which makes up Key
+   //System.out.println("\n------- PULLING OUT PARAMETERS WHICH MAKES KEYPAIR----------\n");
+   KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+   RSAPublicKeySpec rsaPubKeySpec = keyFactory.getKeySpec(publicKey, RSAPublicKeySpec.class);
+   RSAPrivateKeySpec rsaPrivKeySpec = keyFactory.getKeySpec(privateKey, RSAPrivateKeySpec.class);
+   //System.out.println("PubKey Modulus : " + rsaPubKeySpec.getModulus());
+   //System.out.println("PubKey Exponent : " + rsaPubKeySpec.getPublicExponent());
+   //System.out.println("PrivKey Modulus : " + rsaPrivKeySpec.getModulus());
+   //System.out.println("PrivKey Exponent : " + rsaPrivKeySpec.getPrivateExponent());
+   
+   //Share public key with other so they can encrypt data and decrypt thoses using private key(Don't share with Other)
+   //System.out.println("\n--------SAVING PUBLIC KEY AND PRIVATE KEY TO FILES-------\n");
+   //RSAEncryptionDescription rsaObj = new RSAEncryptionDescription();
+   //rsaObj.saveKeys(PUBLIC_KEY_FILE, rsaPubKeySpec.getModulus(), rsaPubKeySpec.getPublicExponent());
+   //rsaObj.saveKeys(PRIVATE_KEY_FILE, rsaPrivKeySpec.getModulus(), rsaPrivKeySpec.getPrivateExponent());
+
+   //Encrypt Data using Public Key
+   byte[] encryptedData = rsaObj.encryptData(data,rsaPubKeySpec,rsaPrivKeySpec);
+   String encryptedDataString=Base64.getEncoder().encodeToString(encryptedData);
+   String privKeyString=RSAEncryptionDescription.toString(rsaPrivKeySpec);
+    ArrayList<String> keyList=new ArrayList<String>();
+    keyList.add(encryptedDataString);
+    keyList.add(privKeyString);
+    return keyList;
+   //Descypt Data using Private Key
+   //rsaObj.decryptData(encryptedData);
+   
+  } catch (NoSuchAlgorithmException e) {
+   e.printStackTrace();
+  }catch (InvalidKeySpecException e) {
+   e.printStackTrace();
+  }
+  return null;
+
+ }
+ 
+ /**
+  * Save Files
+  * @param fileName
+  * @param mod
+  * @param exp
+  * @throws IOException
+  */
+ private void saveKeys(String fileName,BigInteger mod,BigInteger exp) throws IOException{
+  FileOutputStream fos = null;
+  ObjectOutputStream oos = null;
+  
+  try {
+   System.out.println("Generating "+fileName + "...");
+   fos = new FileOutputStream(fileName);
+   oos = new ObjectOutputStream(new BufferedOutputStream(fos));
+   
+   oos.writeObject(mod);
+   oos.writeObject(exp); 
+   
+   System.out.println(fileName + " generated successfully");
+  } catch (Exception e) {
+   e.printStackTrace();
+  }
+  finally{
+   if(oos != null){
+    oos.close();
+    
+    if(fos != null){
+     fos.close();
+    }
+   }
+  }  
+ }
+ 
+ 
+ private byte[] encryptData(String data, RSAPublicKeySpec rsaPubKey,RSAPrivateKeySpec rsaPrivKey) throws IOException {
+  //System.out.println("\n----------------ENCRYPTION STARTED------------");
+  
+  //System.out.println("Data Before Encryption :" + data);
+  byte[] dataToEncrypt = data.getBytes();
+  byte[] encryptedData = null;
+  try {
+   //PublicKey pubKey = readPublicKeyFromFile(PUBLIC_KEY_FILE);
+   Cipher cipher = Cipher.getInstance("RSA");
+   cipher.init(Cipher.ENCRYPT_MODE, readPublicKeyFromFile(rsaPubKey));
+//long start = System.currentTimeMillis();   
+encryptedData = cipher.doFinal(dataToEncrypt);
+//long end = System.currentTimeMillis();
+//long elapsed = end - start;
+//System.out.println("Encryption time"+elapsed);   
+//System.out.println("Encryted Data: " + encryptedData);
+   
+  } catch (Exception e) {
+   e.printStackTrace();
+  } 
+  
+  //System.out.println("----------------ENCRYPTION COMPLETED------------");  
+  return encryptedData;
+ }
+
+ /**
+  * Encrypt Data
+  * @param data
+  * @throws IOException
+  */
+ private void decryptData(byte[] data) throws IOException {
+  //System.out.println("\n----------------DECRYPTION STARTED------------");
+  byte[] descryptedData = null;
+  
+  try {
+   PrivateKey privateKey = readPrivateKeyFromFile(PRIVATE_KEY_FILE);
+   Cipher cipher = Cipher.getInstance("RSA");
+   cipher.init(Cipher.DECRYPT_MODE, privateKey);
+//long start1 = System.currentTimeMillis();
+   descryptedData = cipher.doFinal(data);
+//long end1 = System.currentTimeMillis();
+//long elapsed1 = end1 - start1;
+//System.out.println("Decryption time"+elapsed1);
+  // System.out.println("Decrypted Data: " + new String(descryptedData));
+   
+  } catch (Exception e) {
+   e.printStackTrace();
+  } 
+  
+ // System.out.println("----------------DECRYPTION COMPLETED------------");  
+ }
+ 
+ /**
+  * read Public Key From File
+  * @param fileName
+  * @return PublicKey
+  * @throws IOException
+  */
+ public PublicKey readPublicKeyFromFile(RSAPublicKeySpec fileName) throws IOException{
+  //FileInputStream fis = null;
+  //ObjectInputStream ois = null;
+  try {
+   //fis = new FileInputStream(new File(fileName));
+   //ois = new ObjectInputStream(fis);
+   
+   //BigInteger modulus = (BigInteger) ois.readObject();
+      //BigInteger exponent = (BigInteger) ois.readObject();
+   
+      //Get Public Key
+      //RSAPublicKeySpec rsaPublicKeySpec = new RSAPublicKeySpec(modulus, exponent);
+      KeyFactory fact = KeyFactory.getInstance("RSA");
+      PublicKey publicKey = fact.generatePublic(rsaPublicKeySpec);
+            
+      return publicKey;
+      
+  } catch (Exception e) {
+   e.printStackTrace();
+  }
+  finally{
+   //if(ois != null){
+    //ois.close();
+    //if(fis != null){
+     //fis.close();
+    //}
+   //}
+  }
+  return null;
+ }
+ 
+ /**
+  * read Public Key From File
+  * @param fileName
+  * @return
+  * @throws IOException
+  */
+ public PrivateKey readPrivateKeyFromFile(String fileName) throws IOException{
+  FileInputStream fis = null;
+  ObjectInputStream ois = null;
+  try {
+   fis = new FileInputStream(new File(fileName));
+   ois = new ObjectInputStream(fis);
+   
+   BigInteger modulus = (BigInteger) ois.readObject();
+      BigInteger exponent = (BigInteger) ois.readObject();
+   
+      //Get Private Key
+      RSAPrivateKeySpec rsaPrivateKeySpec = new RSAPrivateKeySpec(modulus, exponent);
+      KeyFactory fact = KeyFactory.getInstance("RSA");
+      PrivateKey privateKey = fact.generatePrivate(rsaPrivateKeySpec);
+            
+      return privateKey;
+      
+  } catch (Exception e) {
+   e.printStackTrace();
+  }
+  finally{
+   if(ois != null){
+    ois.close();
+    if(fis != null){
+     fis.close();
+    }
+   }
+  }
+  return null;
+ }
+
+ private static Object fromString( String s ) throws IOException ,
+                                                       ClassNotFoundException {
+        byte [] data = Base64.getDecoder().decode( s );
+        ObjectInputStream ois = new ObjectInputStream( 
+                                        new ByteArrayInputStream(  data ) );
+        Object o  = ois.readObject();
+        ois.close();
+        return o;
+   }
+
+    /** Write the object to a Base64 string. */
+    private static String toString( Object o ) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream( baos );
+        oos.writeObject( o );
+        oos.close();
+        return Base64.getEncoder().encodeToString(baos.toByteArray()); 
+    }
+  
+}
+
+ %>
+
  <%!
  
 static class AESEncryptor {
  
- public static void encrypt(String fname) throws Exception{
+ public static String encrypt(String fname) throws Exception{
   KeyGenerator keyGen = KeyGenerator.getInstance("AES");
   keyGen.init(128);  //using AES-256
   SecretKey key = keyGen.generateKey();  //generating key
@@ -32,9 +291,10 @@ static class AESEncryptor {
   
     FileOutputStream fos = new FileOutputStream(fname+".aes");
    //creating object output stream to write objects to file
-   ObjectOutputStream oos = new ObjectOutputStream(fos);
-   oos.writeObject(key);  //saving key to file for use during decryption
- 
+   //ObjectOutputStream oos = new ObjectOutputStream(fos);
+   //oos.writeObject(key);  //saving key to file for use during decryption
+    String encodedKey=toString(key);
+    //encryptKeyUsingRSA(encodedKey);
    //creating file input stream to read contents for encryption
    FileInputStream fis = new FileInputStream(fname);
     //creating cipher output stream to write encrypted contents
@@ -43,7 +303,7 @@ static class AESEncryptor {
      byte buf[] = new byte[4096];
      while((read = fis.read(buf)) != -1)  //reading from file
       cos.write(buf, 0, read);  //encrypting and writing to file
-    
+    return encodedKey;
    
    
  }
@@ -71,6 +331,25 @@ static class AESEncryptor {
    
   
  }
+
+ private static Object fromString( String s ) throws IOException ,
+                                                       ClassNotFoundException {
+        byte [] data = Base64.getDecoder().decode( s );
+        ObjectInputStream ois = new ObjectInputStream( 
+                                        new ByteArrayInputStream(  data ) );
+        Object o  = ois.readObject();
+        ois.close();
+        return o;
+   }
+
+    /** Write the object to a Base64 string. */
+    private static String toString( Object o ) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream( baos );
+        oos.writeObject( o );
+        oos.close();
+        return Base64.getEncoder().encodeToString(baos.toByteArray()); 
+    }
   
  
  
@@ -252,11 +531,131 @@ public class AESEncryptor {
 
 %>
 
+<%!
+
+static class MySQLAccess {
+
+  public static void storeInDatabase(String fileName,int level,String esk,String pk) throws Exception {
+    try {
+
+
+  Connection connect = null;
+  Statement statement = null;
+  PreparedStatement preparedStatement = null;
+  ResultSet resultSet = null;
+      // This will load the MySQL driver, each DB has its own driver
+      Class.forName("com.mysql.jdbc.Driver");
+      // Setup the connection with the DB
+      connect = DriverManager
+          .getConnection("jdbc:mysql://ap-cdbr-azure-southeast-a.cloudapp.net/datacomm","b8fdb7a0f430b6","3770357f");
+
+      // Statements allow to issue SQL queries to the database
+      statement = connect.createStatement();
+      // Result set get the result of the SQL query
+      resultSet = statement
+          .executeQuery("SELECT * FROM cloudfiles where filename='"+fileName+"';");
+      //writeResultSet(resultSet);
+      if(resultSet.first()){
+      // PreparedStatements can use variables and are more efficient
+      preparedStatement = connect
+          .prepareStatement("UPDATE cloudfiles set level=?,esk=?,sk=? where filename=?;");
+      // "myuser, webpage, datum, summery, COMMENTS from feedback.comments");
+      // Parameters start with 1
+      preparedStatement.setInt(1, level);
+      preparedStatement.setString(2, esk);
+      preparedStatement.setString(3, pk);
+      preparedStatement.setDate(4, fileName);
+      int status=preparedStatement.executeUpdate();
+      if(status==0){
+        throw new Exception("SQL Update Failed");
+      }
+    }else{
+
+      preparedStatement = connect
+          .prepareStatement("INSERT INTO cloudfiles values(?,?,?,?);");
+      preparedStatement.setDate(1, fileName);
+      preparedStatement.setInt(2, level);
+      preparedStatement.setString(3, esk);
+      preparedStatement.setString(4, pk);
+      int status = preparedStatement.executeUpdate();
+      if(status==0){
+        throw new Exception("SQL Insertion Failed");
+      }
+    }
+      //writeResultSet(resultSet);
+      // Remove again the insert comment
+        
+      
+    } catch (Exception e) {
+      throw e;
+    } finally {
+      close();
+    }
+
+  }
+
+  /*private void writeMetaData(ResultSet resultSet) throws SQLException {
+    //   Now get some metadata from the database
+    // Result set get the result of the SQL query
+    
+    System.out.println("The columns in the table are: ");
+    
+    System.out.println("Table: " + resultSet.getMetaData().getTableName(1));
+    for  (int i = 1; i<= resultSet.getMetaData().getColumnCount(); i++){
+      System.out.println("Column " +i  + " "+ resultSet.getMetaData().getColumnName(i));
+    }
+  }*/
+
+  /*private void writeResultSet(ResultSet resultSet) throws SQLException {
+    // ResultSet is initially before the first data set
+    while (resultSet.next()) {
+      // It is possible to get the columns via name
+      // also possible to get the columns via the column number
+      // which starts at 1
+      // e.g. resultSet.getSTring(2);
+      String user = resultSet.getString("myuser");
+      String website = resultSet.getString("webpage");
+      String summery = resultSet.getString("summery");
+      Date date = resultSet.getDate("datum");
+      String comment = resultSet.getString("comments");
+      System.out.println("User: " + user);
+      System.out.println("Website: " + website);
+      System.out.println("Summery: " + summery);
+      System.out.println("Date: " + date);
+      System.out.println("Comment: " + comment);
+    }
+  }*/
+
+  // You need to close the resultSet
+  private void close() {
+    try {
+      if (resultSet != null) {
+        resultSet.close();
+      }
+
+      if (statement != null) {
+        statement.close();
+      }
+
+      if (connect != null) {
+        connect.close();
+      }
+    } catch (Exception e) {
+
+    }
+  }
+
+} 
+
+%>
+
 
 <%
    File file ;
    int maxFileSize = 5000 * 1024;
    int maxMemSize = 5000 * 1024;
+   String level;
+   int lev=-1;
    ServletContext context = pageContext.getServletContext();
    String filePath = "D:\\uploads\\";
    out.write("start");
@@ -269,7 +668,8 @@ public class AESEncryptor {
       factory.setSizeThreshold(maxMemSize);
       // Location to save data that is larger than maxMemSize.
       factory.setRepository(new File("D:\\temp\\"));
-
+      level=request.getParameter("level");
+      lev=Integer.parseInt(level);
       // Create a new file upload handler
       ServletFileUpload upload = new ServletFileUpload(factory);
       out.write("\nservlet file upload");
@@ -304,10 +704,13 @@ out.write("\noutput");
             out.write("\nSuccessfully uploaded");
 
            try{ 
-		AESEncryptor.encrypt(filePath+fileName);
+		String key=AESEncryptor.encrypt(filePath+fileName);
             out.write("encrypted");
-            AESEncryptor.decrypt(filePath+fileName+".aes");
-            out.write("decrypted");
+            ArrayList<String> rsaKeys=RSAEncryptionDescription.encrypt(key);
+            MySQLAccess.storeInDatabase(fileName,lev,rsaKeys.get(0),rsaKeys.get(1));
+            //AESEncryptor.decrypt(filePath+fileName+".aes");
+            //out.write("decrypted");
+
 }catch(Exception e){
 	e.printStackTrace();
 }
