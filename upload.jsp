@@ -82,7 +82,7 @@ static class RSAEncryptionDescription {
     out.write("\nRsa data encrypted, data is:"+encryptedData);
    String encryptedDataString=Base64.getEncoder().encodeToString(encryptedData);
     out.write("\nrsaencryptedatastrign"+encryptedDataString);
-   String privKeyString=RSAEncryptionDescription.toString(rsaPrivKeySpec);
+   String privKeyString=RSAEncryptionDescription.toString(privateKey);
     ArrayList<String> keyList=new ArrayList<String>();
     keyList.add(encryptedDataString);
     keyList.add(privKeyString);
