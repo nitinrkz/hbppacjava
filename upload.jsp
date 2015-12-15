@@ -85,9 +85,11 @@ static class RSAEncryptionDescription {
    //rsaObj.decryptData(encryptedData);
    
   } catch (NoSuchAlgorithmException e) {
+    out.write(e.getMessage());
    e.printStackTrace();
   }catch (Exception e) {
    e.printStackTrace();
+    out.write(e.getMessage());
   }
   return null;
 
