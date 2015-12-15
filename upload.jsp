@@ -85,7 +85,7 @@ static class RSAEncryptionDescription {
    
   } catch (NoSuchAlgorithmException e) {
    e.printStackTrace();
-  }catch (InvalidKeySpecException e) {
+  }catch (Exception e) {
    e.printStackTrace();
   }
   return null;
