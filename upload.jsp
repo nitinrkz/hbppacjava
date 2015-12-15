@@ -45,7 +45,7 @@
 static class RSAEncryptionDescription {
  
  public static ArrayList<String> encrypt(String data,JspWriter out) {
-    
+    try{
   try {
     out.write("\nrsaencrypt started");
    //System.out.println("-------GENRATE PUBLIC and PRIVATE KEY-------------");
@@ -86,17 +86,13 @@ static class RSAEncryptionDescription {
    //Descypt Data using Private Key
    //rsaObj.decryptData(encryptedData);
    
-  } catch (NoSuchAlgorithmException e) {
-    try{
+  } catch (Exception e) {
+
     out.write(e.getMessage());
-  }catch(Exception ez){  }
-   //e.printStackTrace();
-  }catch (Exception ev) {
-   //e.printStackTrace();
-    try{
-    out.write(e.getMessage());
-  }catch(Exception e){  }
   }
+}catch(Exception e){
+  
+}
   return null;
 
  }
