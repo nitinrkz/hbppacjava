@@ -127,7 +127,7 @@ static class RSAEncryptionDescription {
  }
  
  
- private byte[] encryptData(String data, RSAPublicKeySpec rsaPubKey,RSAPrivateKeySpec rsaPrivKey) throws IOException {
+ private static byte[] encryptData(String data, RSAPublicKeySpec rsaPubKey,RSAPrivateKeySpec rsaPrivKey) throws IOException {
   //System.out.println("\n----------------ENCRYPTION STARTED------------");
   
   //System.out.println("Data Before Encryption :" + data);
@@ -157,7 +157,7 @@ encryptedData = cipher.doFinal(dataToEncrypt);
   * @param data
   * @throws IOException
   */
- private void decryptData(byte[] data) throws IOException {
+ private static void decryptData(byte[] data) throws IOException {
   //System.out.println("\n----------------DECRYPTION STARTED------------");
   byte[] descryptedData = null;
   
@@ -185,7 +185,7 @@ encryptedData = cipher.doFinal(dataToEncrypt);
   * @return PublicKey
   * @throws IOException
   */
- public PublicKey readPublicKeyFromFile(RSAPublicKeySpec fileName) throws IOException{
+ public static PublicKey readPublicKeyFromFile(RSAPublicKeySpec fileName) throws IOException{
   //FileInputStream fis = null;
   //ObjectInputStream ois = null;
   try {
@@ -222,7 +222,7 @@ encryptedData = cipher.doFinal(dataToEncrypt);
   * @return
   * @throws IOException
   */
- public PrivateKey readPrivateKeyFromFile(String fileName) throws IOException{
+ public static PrivateKey readPrivateKeyFromFile(String fileName) throws IOException{
   FileInputStream fis = null;
   ObjectInputStream ois = null;
   try {
@@ -627,7 +627,7 @@ static class MySQLAccess {
   }*/
 
   // You need to close the resultSet
-  private void close() {
+  private static void close() {
     try {
       if (resultSet != null) {
         resultSet.close();
