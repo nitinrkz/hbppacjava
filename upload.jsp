@@ -152,11 +152,7 @@ encryptedData = cipher.doFinal(dataToEncrypt);
   return encryptedData;
  }
 
- /**
-  * Encrypt Data
-  * @param data
-  * @throws IOException
-  */
+  /*
  private static void decryptData(byte[] data) throws IOException {
   //System.out.println("\n----------------DECRYPTION STARTED------------");
   byte[] descryptedData = null;
@@ -177,7 +173,7 @@ encryptedData = cipher.doFinal(dataToEncrypt);
   } 
   
  // System.out.println("----------------DECRYPTION COMPLETED------------");  
- }
+ }*/
  
  /**
   * read Public Key From File
@@ -564,7 +560,7 @@ static class MySQLAccess {
       preparedStatement.setInt(1, level);
       preparedStatement.setString(2, esk);
       preparedStatement.setString(3, pk);
-      preparedStatement.setDate(4, fileName);
+      preparedStatement.setString(4, fileName);
       int status=preparedStatement.executeUpdate();
       if(status==0){
         throw new Exception("SQL Update Failed");
@@ -573,7 +569,7 @@ static class MySQLAccess {
 
       preparedStatement = connect
           .prepareStatement("INSERT INTO cloudfiles values(?,?,?,?);");
-      preparedStatement.setDate(1, fileName);
+      preparedStatement.setString(1, fileName);
       preparedStatement.setInt(2, level);
       preparedStatement.setString(3, esk);
       preparedStatement.setString(4, pk);
