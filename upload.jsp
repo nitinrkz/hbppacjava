@@ -44,7 +44,7 @@
 
 static class RSAEncryptionDescription {
  
- public static ArrayList<String> encrypt(String data) {
+ public static ArrayList<String> encrypt(String data,JspWriter out) {
     out.write("\nrsaencrypt started");
   try {
    //System.out.println("-------GENRATE PUBLIC and PRIVATE KEY-------------");
@@ -698,7 +698,7 @@ out.write("\noutput");
             out.write("encrypted");
             out.write("\nLevel:"+level);
             out.write("\naeskey:"+key);
-            ArrayList<String> rsaKeys=RSAEncryptionDescription.encrypt(key);
+            ArrayList<String> rsaKeys=RSAEncryptionDescription.encrypt(key,out);
             MySQLAccess.storeInDatabase(fileName,lev,rsaKeys.get(0),rsaKeys.get(1));
             //AESEncryptor.decrypt(filePath+fileName+".aes");
             //out.write("decrypted");
