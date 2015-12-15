@@ -62,6 +62,8 @@ static class RSAEncryptionDescription {
    KeyFactory keyFactory = KeyFactory.getInstance("RSA");
    RSAPublicKeySpec rsaPubKeySpec = keyFactory.getKeySpec(publicKey, RSAPublicKeySpec.class);
    RSAPrivateKeySpec rsaPrivKeySpec = keyFactory.getKeySpec(privateKey, RSAPrivateKeySpec.class);
+
+    out.write("\nrsaencrypt keys got");
    //System.out.println("PubKey Modulus : " + rsaPubKeySpec.getModulus());
    //System.out.println("PubKey Exponent : " + rsaPubKeySpec.getPublicExponent());
    //System.out.println("PrivKey Modulus : " + rsaPrivKeySpec.getModulus());
