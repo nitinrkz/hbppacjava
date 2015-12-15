@@ -706,7 +706,7 @@ out.write("\noutput");
 
 }catch(Exception e){
 	e.printStackTrace();
-  out.write(e.toString);
+  //out.write(e.toString());
 }
 
             }
