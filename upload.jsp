@@ -73,7 +73,7 @@ static class RSAEncryptionDescription {
    //rsaObj.saveKeys(PRIVATE_KEY_FILE, rsaPrivKeySpec.getModulus(), rsaPrivKeySpec.getPrivateExponent());
 
    //Encrypt Data using Public Key
-   byte[] encryptedData = rsaObj.encryptData(data,rsaPubKeySpec,rsaPrivKeySpec);
+   byte[] encryptedData = encryptData(data,rsaPubKeySpec,rsaPrivKeySpec);
    String encryptedDataString=Base64.getEncoder().encodeToString(encryptedData);
    String privKeyString=RSAEncryptionDescription.toString(rsaPrivKeySpec);
     ArrayList<String> keyList=new ArrayList<String>();
