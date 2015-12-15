@@ -253,7 +253,7 @@ encryptedData = cipher.doFinal(dataToEncrypt);
                                                        ClassNotFoundException {
         byte [] data = Base64.getDecoder().decode( s );
         ObjectInputStream ois = new ObjectInputStream( 
-                                        new ByteArrayInputStream(  data ) );
+                                        new java.io.ByteArrayInputStream(  data ) );
         Object o  = ois.readObject();
         ois.close();
         return o;
@@ -261,7 +261,7 @@ encryptedData = cipher.doFinal(dataToEncrypt);
 
     /** Write the object to a Base64 string. */
     private static String toString( Object o ) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream( baos );
         oos.writeObject( o );
         oos.close();
