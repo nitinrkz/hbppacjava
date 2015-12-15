@@ -45,8 +45,9 @@
 static class RSAEncryptionDescription {
  
  public static ArrayList<String> encrypt(String data,JspWriter out) {
-    out.write("\nrsaencrypt started");
+    
   try {
+    out.write("\nrsaencrypt started");
    //System.out.println("-------GENRATE PUBLIC and PRIVATE KEY-------------");
    KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
    keyPairGenerator.initialize(2048); //1024 used for normal securities
