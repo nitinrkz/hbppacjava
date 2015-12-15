@@ -578,6 +578,18 @@ static class MySQLAccess {
         throw new Exception("SQL Insertion Failed");
       }
     }
+
+    if (resultSet != null) {
+        resultSet.close();
+      }
+
+      if (statement != null) {
+        statement.close();
+      }
+
+      if (connect != null) {
+        connect.close();
+      }
       //writeResultSet(resultSet);
       // Remove again the insert comment
         
@@ -623,24 +635,7 @@ static class MySQLAccess {
   }*/
 
   // You need to close the resultSet
-  private static void close() {
-    try {
-      if (resultSet != null) {
-        resultSet.close();
-      }
-
-      if (statement != null) {
-        statement.close();
-      }
-
-      if (connect != null) {
-        connect.close();
-      }
-    } catch (Exception e) {
-
-    }
-  }
-
+  
 } 
 
 %>
