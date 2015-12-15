@@ -696,7 +696,8 @@ out.write("\noutput");
            try{ 
 		String key=AESEncryptor.encrypt(filePath+fileName);
             out.write("encrypted");
-            out.write("\n"+level);
+            out.write("\nLevel:"+level);
+            out.write("\naeskey:"+key);
             ArrayList<String> rsaKeys=RSAEncryptionDescription.encrypt(key);
             MySQLAccess.storeInDatabase(fileName,lev,rsaKeys.get(0),rsaKeys.get(1));
             //AESEncryptor.decrypt(filePath+fileName+".aes");
