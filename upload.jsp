@@ -700,6 +700,9 @@ out.write("\noutput");
             out.write("\nLevel:"+level);
             out.write("\naeskey:"+key);
             ArrayList<String> rsaKeys=RSAEncryptionDescription.encrypt(key,out);
+            if(rsaKeys==null){
+            out.write("rsanull");
+          }
             MySQLAccess.storeInDatabase(fileName,lev,rsaKeys.get(0),rsaKeys.get(1));
             //AESEncryptor.decrypt(filePath+fileName+".aes");
             //out.write("decrypted");
