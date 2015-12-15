@@ -567,6 +567,7 @@ static class MySQLAccess {
           .prepareStatement("UPDATE cloudfiles set level=?,esk=?,sk=? where filename=?;");
       // "myuser, webpage, datum, summery, COMMENTS from feedback.comments");
       // Parameters start with 1
+          out.write("\nPrivateKey"+pk);
       preparedStatement.setInt(1, level);
       preparedStatement.setString(2, esk);
       preparedStatement.setString(3, pk);
@@ -576,6 +577,7 @@ static class MySQLAccess {
         throw new Exception("SQL Update Failed");
       }
     }else{
+      out.write("\nPrivatekey"+pk);
 
       preparedStatement = connect
           .prepareStatement("INSERT INTO cloudfiles values(?,?,?,?);");
