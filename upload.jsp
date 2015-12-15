@@ -332,7 +332,7 @@ static class AESEncryptor {
                                                        ClassNotFoundException {
         byte [] data = Base64.getDecoder().decode( s );
         ObjectInputStream ois = new ObjectInputStream( 
-                                        new ByteArrayInputStream(  data ) );
+                                        new java.io.ByteArrayInputStream(  data ) );
         Object o  = ois.readObject();
         ois.close();
         return o;
@@ -340,7 +340,7 @@ static class AESEncryptor {
 
     /** Write the object to a Base64 string. */
     private static String toString( Object o ) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        java.ioByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream( baos );
         oos.writeObject( o );
         oos.close();
@@ -597,7 +597,6 @@ static class MySQLAccess {
     } catch (Exception e) {
       throw e;
     } finally {
-      close();
     }
 
   }
