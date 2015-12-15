@@ -45,7 +45,7 @@
 static class RSAEncryptionDescription {
  
  public static ArrayList<String> encrypt(String data) {
-
+    out.write("\nrsaencrypt started");
   try {
    //System.out.println("-------GENRATE PUBLIC and PRIVATE KEY-------------");
    KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
